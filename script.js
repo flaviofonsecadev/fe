@@ -1,86 +1,38 @@
-const quotes = [  {    quote: "Bem-aventurados os limpos de coração, porque verão a Deus.",    author: "Mateus 5:8"  },
-                {    quote: "Não tenhas medo, crê somente.",    author: "Marcos 5:36"  },
-                {    quote: "Eu sou o pão da vida; aquele que vem a mim não terá fome.",    author: "João 6:35"  },
-                {    quote: "Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.",    author: "Mateus 11:28"  },
-                {    quote: "O Senhor é o meu pastor, nada me faltará.",    author: "Salmos 23:1"  },
-                {    quote: "Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.",    author: "Salmos 46:1"  },
-                {    quote: "A paz de Deus, que excede todo o entendimento, guardará o vosso coração e a vossa mente.",    author: "Filipenses 4:7"  },
-                {    quote: "O amor é paciente, é benigno; o amor não arde em ciúmes, não se ufana, não se ensoberbece.",    author: "1 Coríntios 13:4"  },
-                {    quote: "Em tudo somos atribulados, porém não angustiados; perplexos, porém não desanimados; perseguidos, porém não desamparados; abatidos, porém não destruídos.",    author: "2 Coríntios 4:8-9"  },
-                {    quote: "Porque, onde estiver o vosso tesouro, ali estará também o vosso coração.",    author: "Mateus 6:21"  },
-                 {   quote: "Sede, pois, imitadores de Deus, como filhos amados;",
-    author: "Efésios 5:1"
-  },
-  {
-    quote: "Não se turbe o vosso coração; credes em Deus, crede também em mim.",
-    author: "João 14:1"
-  },
-  {
-    quote: "E conhecereis a verdade, e a verdade vos libertará.",
-    author: "João 8:32"
-  },
-  {
-    quote: "Bem-aventurados os mansos, porque eles herdarão a terra.",
-    author: "Mateus 5:5"
-  },
-  {
-    quote: "O meu mandamento é este: Que vos ameis uns aos outros, assim como eu vos amei.",
-    author: "João 15:12"
-  },
-  {
-    quote: "Mas aquele que perseverar até ao fim, esse será salvo.",
-    author: "Mateus 24:13"
-  },
-  {
-    quote: "Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.",
-    author: "Salmos 46:1"
-  },
-  {
-    quote: "Porque Deus não nos tem dado o espírito de temor, mas de fortaleza, e de amor, e de moderação.",
-    author: "2 Timóteo 1:7"
-  }  ];
+const versiculos = [
+  {texto: 'Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.', referencia: 'João 3:16'},
+  {texto: 'Porque todos pecaram e destituídos estão da glória de Deus;', referencia: 'Romanos 3:23'},
+  {texto: 'E Jesus lhes disse: Eu sou o pão da vida; aquele que vem a mim não terá fome, e quem crê em mim nunca terá sede.', referencia: 'João 6:35'},
+  // Adicione mais versículos aqui...
+];
 
-const quoteEl = document.getElementById("quote");
-const authorEl = document.getElementById("author");
-
-function newQuote() {
-  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-  quoteEl.innerHTML = randomQuote.quote;
-  authorEl.innerHTML = `- ${randomQuote.author}`;
+function exibirVersiculo() {
+  // Sorteia um versículo aleatório
+  const indice = Math.floor(Math.random() * versiculos.length);
+  const versiculo = versiculos[indice];
+  
+  // Exibe o versículo na tela
+  const textoVersiculo = document.getElementById('texto-versiculo');
+  const referenciaVersiculo = document.getElementById('referencia-versiculo');
+  textoVersiculo.textContent = versiculo.texto;
+  referenciaVersiculo.textContent = versiculo.referencia;
 }
 
-newQuote();
-
-setInterval(newQuote, 15000);
-
-const checkbox = document.getElementById("notification-checkbox");
-checkbox.addEventListener("change", () => {
-    if (checkbox.checked) {
-        localStorage.setItem("notification", "true");
-    } else {
-        localStorage.setItem("notification", "false");
-    }
-});
-
-function sendNotification() {
-    if (Notification.permission === "granted" && localStorage.getItem("notification") === "true") {
-        const index = Math.floor(Math.random() * verses.length);
-        const verse = verses[index];
-        const options = {
-            body: verse.text,
-            icon: "icon.png"
-        };
-        new Notification(verse.reference, options);
-    }
+// Define a periodicidade das notificações de acordo com a escolha do usuário
+const opcaoPeriodicidade = localStorage.getItem('periodicidade');
+//let intervalo = 60 * 60 * 1000; // 1 hora (padrão)
+let intervalo = 5 * 1000; // 5 segundos só para testar o site xxxxxxxxxxxx
+if (opcaoPeriodicidade === '3h') {
+  intervalo = 3 * 60 * 60 * 1000; // 3 horas
+} else if (opcaoPeriodicidade === '5h') {
+  intervalo = 5 * 60 * 60 * 1000; // 5 horas
 }
 
-if (Notification.permission !== "granted") {
-    Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-            sendNotification(); // Envia a primeira notificação imediatamente após o usuário dar permissão
-        }
+// Configura o Service Worker para exibir notificações
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(reg => {
+      setInterval(exibirVersiculo, intervalo);
     });
-} else {
-    sendNotification(); // Envia a primeira notificação se o usuário já tiver dado permissão anteriormente
 }
+
 
