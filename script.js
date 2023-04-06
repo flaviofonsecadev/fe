@@ -62,4 +62,25 @@ checkbox.addEventListener("change", () => {
     }
 });
 
+function sendNotification() {
+    if (Notification.permission === "granted" && localStorage.getItem("notification") === "true") {
+        const index = Math.floor(Math.random() * verses.length);
+        const verse = verses[index];
+        const options = {
+            body: verse.text,
+            icon: "icon.png"
+        };
+        new Notification(verse.reference, options);
+    }
+}
+
+if (Notification.permission !== "granted") {
+    Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+            sendNotification(); // Envia a primeira notificação imediatamente após o usuário dar permissão
+        }
+    });
+} else {
+    sendNotification(); // Envia a primeira notificação se o usuário já tiver dado permissão anteriormente
+}
 
