@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meditação Bíblica</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="container">
-      <h1>Meditação Bíblica</h1>
-      <div class="quote">
-        <p id="quote"></p>
-        <p id="author"></p>
-      </div>
-      <div id="notification-toggle">
-        <label for="notification-checkbox">Receber notificações de versículos da Bíblia?</label>
-        <input type="checkbox" id="notification-checkbox">
-      </div>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificações de versículos da Bíblia</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Notificações de versículos da Bíblia</h1>
+  </header>
+  <main>
+    <form id="form-periodicidade">
+      <label for="periodicidade">Escolha a periodicidade das notificações:</label>
+      <select id="periodicidade" name="periodicidade">
+        <option value="1h">De 1 em 1 hora</option>
+        <option value="3h">De 3 em 3 horas</option>
+        <option value="5h">De 5 em 5 horas</option>
+      </select>
+      <button type="submit">Salvar</button>
+    </form>
+    <div id="versiculo">
+      <p id="texto-versiculo">Aguardando notificação...</p>
+      <p id="referencia-versiculo"></p>
     </div>
-
-    <script src="script.js"></script>
-  </body>
+  </main>
+  <script src="script.js"></script>
+</body>
 </html>
-
