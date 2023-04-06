@@ -52,3 +52,14 @@ function newQuote() {
 newQuote();
 
 setInterval(newQuote, 15000);
+
+const checkbox = document.getElementById("notification-checkbox");
+checkbox.addEventListener("change", () => {
+    if (checkbox.checked) {
+        localStorage.setItem("notification", "true");
+    } else {
+        localStorage.setItem("notification", "false");
+    }
+});
+
+
